@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments :: page_head('Home', 'css/style.css', 'none')}"></head>
 <body>
 
-    <h1>Welcome to the Admin dashboard</h1>
+<div class="container-fluid">
+
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <div>
+        <h1>Spring Bank Control Panel</h1>
+    </div>
+
+    <h1>Welcome to Spring Bank Admin Controll Panel</h1>
+
+    <div th:replace="~{fragments :: footer}"></div>
+</div>
+
+
 
 </body>
 </html>

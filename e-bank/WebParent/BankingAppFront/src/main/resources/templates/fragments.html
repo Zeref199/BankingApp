@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head th:fragment="page_head(title, remove)" th:remove="${remove}">
+    <head th:fragment="page_head(title, style, remove)" th:remove="${remove}">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
@@ -8,8 +8,11 @@
 
         <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
         <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}" ></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.js}"></script>
         <link rel="stylesheet" th:href="@{/fontawesome/all.css}">
-        <link rel="stylesheet" th:href="@{/css/default.css}">
+        <th:block th:if="${style != null and !#strings.isEmpty(style)}">
+            <link rel="stylesheet" type="text/css" th:href="@{${style}}">
+        </th:block>
     </head>
 <body>
 
