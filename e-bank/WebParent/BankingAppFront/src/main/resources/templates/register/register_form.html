@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments :: page_head('Register', '/css/default.css', 'none')}"></head>
+<body class="d-flex align-items-center justify-content-center">
+
+<!-- Card: Registration Form Card -->
+<div class="card registration-form-card col-6 bg-transparent border-0">
+    <!-- Card Body -->
+    <div class="card-body">
+        <!-- Form Header -->
+        <h1 class="form-header card-title mb-3">
+            <i class="fa fa-edit"></i> Register
+        </h1>
+        <!-- End Of Form Header -->
+
+        <!-- Regsitration Form -->
+        <form th:action="@{/create_customer}" method="post" th:object="${customer}" class="reg-form" onsubmit="return checkEmailUnique(this);">
+            <!-- Row -->
+            <div class="row">
+                <!-- From Group -->
+                <div class="form-group col">
+                    <input type="text" name="first_name" th:field="*{firstName}"
+                           class="form-control form-control-lg" placeholder="Enter First Name"
+                           required="required" maxlength="45" minlength="2"/>
+                </div>
+                <!-- End Of From Group -->
+
+                <!-- From Group -->
+                <div class="form-group col">
+                    <input type="text" name="last_name" class="form-control form-control-lg"
+                           placeholder="Enter Last Name" th:field="*{lastName}"
+                           required="required" maxlength="45" minlength="2"/>
+                </div>
+                <!-- End Of From Group -->
+            </div>
+            <!-- End Of Row -->
+
+            <!-- From Group -->
+            <div class="form-group col">
+                <input type="email" name="email" th:field="*{email}"
+                       class="form-control form-control-lg" placeholder="Enter Email"
+                       required="required" maxlength="45" minlength="8"/>
+            </div>
+            <!-- End Of From Group -->
+
+            <!-- Row -->
+            <div class="row">
+                <!-- From Group -->
+                <div class="form-group col">
+                    <input type="password" name="password" class="form-control form-control-lg"
+                           placeholder="Enter Password" th:field="*{password}"
+                           required="required" maxlength="15" minlength="6"
+                           oninput="checkPasswordMatch(document.getElementById('confirmPassword'))"/>
+                </div>
+                <!-- End Of From Group -->
+
+                <!-- From Group -->
+                <div class="form-group col">
+                    <input type="password" name="confirm_password" id="confirmPassword"
+                           class="form-control form-control-lg" placeholder="Confirm Password"
+                           required="required" maxlength="15" minlength="6"
+                           oninput="checkPasswordMatch(this)"/>
+                </div>
+                <!-- End Of From Group -->
+            </div>
+            <!-- End Of Row -->
+
+            <!-- From Group -->
+            <div class="form-group col">
+                <button type="submit" class="btn btn-lg">Register</button>
+            </div>
+            <!-- End Of From Group -->
+
+        </form>
+        <!-- End Of Regsitration Form -->
+
+        <!-- Card Text -->
+        <p class="card-text text-white my-2">
+            Already have an account? <span class="ms-2"><a th:href="@{login}" class="btn bt-sm text-warning">Sign In</a></span>
+        </p>
+        <!-- Card Text -->
+
+        <!-- Back Button To Landing Page -->
+        <small class="text-warning">
+            <i class="fa fa-arrow-alt-circle-left"></i> <a th:href="@{index}" class="btn btn-sm text-warning">Back</a>
+        </small>
+        <!-- End Of Back Button To Landing Page -->
+
+    </div>
+    <!-- End Of Card Body -->
+</div>
+<!-- Card: Registration Form Card -->
+
+<div th:replace="~{fragments :: modal_dialog}"></div>
+
+<script type="text/javascript">
+    contextPath = "[[@{/}]]";
+
+    function checkPasswordMatch(confirmPassword) {
+        if (confirmPassword.value !== $("#password").val()) {
+            confirmPassword.setCustomValidity("Passwords do not match!");
+        } else {
+            confirmPassword.setCustomValidity("");
+        }
+    }
+
+    function checkEmailUnique(form) {
+        let url = contextPath + "customers/check_unique_email";
+        let customerEmail = $("#email").val();
+        let csrfValue = $("input[name='_csrf']").val();
+
+        let params = {email: customerEmail, _csrf: csrfValue};
+
+        $.post(url, params, function(response) {
+            if (response === "OK") {
+                form.submit();
+            } else if (response === "Duplicated") {
+                showWarningModal("There is another cusotmer having the email " + customerEmail);
+            } else {
+                showErrorModal("Unknown response from server");
+            }
+        }).fail(function() {
+            showErrorModal("Could not connect to the server");
+        });
+
+        return false;
+    }
+
+    function showModalDialog(title, message) {
+        $("#modalTitle").text(title);
+        $("#modalBody").text(message);
+        $("#modalDialog").modal();
+    }
+
+    function showErrorModal(message) {
+        showModalDialog("Error", message);
+    }
+
+    function showWarningModal(message) {
+        showModalDialog("Warning", message);
+    }
+</script>
+
+
+</body>
+</html>
