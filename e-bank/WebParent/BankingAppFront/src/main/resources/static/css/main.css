@@ -90,3 +90,6 @@ body{
 .withdraw-card{
     display: none;
 }
+.black-link {
+    color: black;
+}
