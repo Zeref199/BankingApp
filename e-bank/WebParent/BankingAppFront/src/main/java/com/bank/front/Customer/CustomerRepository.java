@@ -22,4 +22,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Query("UPDATE Customer c SET c.enabled = true, c.verificationCode = null, c.verified = 1 WHERE c.id = ?1")
     @Modifying
     public void enable(Integer id);
+
+    public Customer findByResetPasswordToken(String token);
 }
