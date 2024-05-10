@@ -22,8 +22,6 @@ public class Customer extends IdBaseEntity{
 
     @Column(name = "last_name", length = 45, nullable = false)
     private String lastName;
-    @Column(length = 250, nullable = true)
-    private Integer code;
     @Column(name = "verified", columnDefinition = "int default 0")
     private int verified;
 

@@ -1,4 +1,4 @@
-package com.bank.front.Customer;
+package com.bank.front.customer;
 
 import com.bank.common.entity.AuthenticationType;
 import com.bank.common.entity.Customer;

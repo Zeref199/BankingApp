@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_head('Dashboard', '/css/main.css', 'none')}"></head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{components/incl/header :: headerFragment}"></div>
+
+<!-- Container -->
+<div class="container">
+
+  <!-- Card: Payment History Card -->
+  <!-- Container -->
+  <div class="container my-4">
+    <div>
+      <form th:action="@{/app/transact_history/page/1}" class="form-inline">
+
+        Filter:&nbsp;
+        <input type="search" name="keyword" th:value="${keyword}" class="form-control" required style="width: 200px; height: 25px; font-size: 12px"/>
+        &nbsp;&nbsp;
+        <input type="submit" value="Search" class="btn btn-primary mt-2 mb-2" />
+        &nbsp;&nbsp;
+        <input type="button" value="Clear" class="btn btn-secondary mt-2 mb-2" onclick="clearFilter()" />
+      </form>
+    </div>
+
+
+    <!-- Card: Transaction History Card -->
+    <div class="card transaction-history shadow">
+      <!-- Card Header -->
+      <div class="card-header">
+        <i class="fas fa-credit-card me-2" aria-hidden="true"></i> Transaction History
+      </div>
+      <!-- End Of Card Header -->
+
+      <!-- Card Body -->
+      <div class="card-body">
+
+        <div th:switch="${#lists.size(transact_history)}">
+          <div th:case="0">
+            <!-- Don't Display Accounts -->
+            <p>no transactions Have been made yet</p>
+          </div>
+          <div th:case="*">
+            <!-- Display Accounts -->
+            <table class="table text-center table-striped">
+              <tr>
+                <th>Transaction ID</th>
+                <th>Transaction Type</th>
+                <th>Amount</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Reason Code</th>
+                <th>Created at</th>
+              </tr>
+              <tr th:each="transaction : ${transact_history}">
+                <td th:text="${transaction.id}"></td>
+                <td th:text="${transaction.transactionType}"></td>
+                <td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.source}"></td>
+                <td th:text="${transaction.status}"></td>
+                <td th:text="${transaction.reasonCode}"></td>
+                <td th:text="${transaction.createdAt}"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- End Of Card Body -->
+    </div>
+    <!-- End Of Card: Transaction History Card -->
+  </div>
+  <div th:if="${totalPages > 1}">
+    <nav>
+      <ul class="pagination justify-content-center">
+        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+          <a class="page-link" th:unless="${keyword != null}" th:href="@{'/app/transact_history/page/1'}">First</a>
+          <a class="page-link" th:if="${keyword != null}" th:href="@{'/app/transact_history/page/1?' + ${keyword != null ? '&keyword=' + keyword : ''}}">First</a>
+        </li>
+        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+          <a class="page-link" th:unless="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${currentPage - 1}}">Previous</a>
+          <a class="page-link" th:if="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${currentPage - 1} + '?' + ${keyword != null ? '&keyword=' + keyword : ''}}">Previous</a>
+        </li>
+
+        <li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+            th:each="i : ${#numbers.sequence(1, totalPages)}">
+          <a class="page-link" th:unless="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${i}}">[[${i}]]</a>
+          <a class="page-link" th:if="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${i} + '?' + ${keyword != null ? '&keyword=' + keyword : ''}}">[[${i}]]</a>
+        </li>
+
+
+        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+          <a class="page-link" th:unless="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${currentPage + 1}}">Next</a>
+          <a class="page-link" th:if="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${currentPage + 1} + '?' + ${keyword != null ? '&keyword=' + keyword : ''}}">Next</a>
+        </li>
+
+        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+          <a class="page-link" th:unless="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${totalPages}}">Last</a>
+          <a class="page-link" th:if="${keyword != null}" th:href="@{'/app/transact_history/page/' + ${totalPages} + '?' + ${keyword != null ? '&keyword=' + keyword : ''}}">Last</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <!-- End Of Container -->
+</div>
+<script>
+  function clearFilter() {
+    window.location = "[[@{/app/transact_history}]]";
+  }
+</script>
+</body>
+</html>
