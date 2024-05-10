@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_head('Verification Succeeded', '/css/verifyStyle.css', 'none')}"></head>
+
+<body class="d-flex align-items-center justify-content-center">
+<!-- Card: Success Card -->
+<div class="card col-4 alert alert-success border border-success text-success">
+  <!-- Card Title -->
+  <h3 class="card-title">
+    <i class="fa fa-check-circle me-2"></i>Customer Verification:
+  </h3>
+  <!-- End Of Card Title -->
+  <hr>
+  <!-- Card Body -->
+  <div class="card-body">
+    <!-- Card Text -->
+    <p class="card-text">
+    Congratulations! Your account has been verified.
+    </p>
+    <!-- End Of Card Text -->
+    <hr>
+    <!-- Back To Login Page -->
+    <a th:href="@{/login}" class="btn btn-sm btn-success">
+      <i class="fa fa-arrow-alt-circle-left me-1"></i> Login Now
+    </a>
+    <!-- End Of Back To Login Page -->
+  </div>
+  <!-- End Of Card Body -->
+</div>
+<!-- End Of Card: Success Card -->
+</body>
+</html>

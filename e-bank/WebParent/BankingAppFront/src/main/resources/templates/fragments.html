@@ -4,17 +4,35 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 
-        <title>[[${title}]]</title>
+        <title>[[${title}]] - [[${SITE_NAME}]]</title>
 
-        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min.css}" />
-        <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}" ></script>
-        <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.bundle.js}"></script>
-        <link rel="stylesheet" th:href="@{/fontawesome/all.css}">
-        <th:block th:if="${style != null and !#strings.isEmpty(style)}">
-            <link rel="stylesheet" type="text/css" th:href="@{${style}}">
-        </th:block>
+        <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/5.3.2/css/bootstrap.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{${style}}">
+        <script type="text/javascript" th:src="@{/webjars/jquery/3.7.1/dist/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.bundle.js}"></script>
+        <script type="text/javascript" th:src="@{/webjars/bootstrap/5.3.2/js/bootstrap.min.js}" ></script>
     </head>
 <body>
+
+<div th:fragment="modal_dialog" class="modal fade text-center" id="modalDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modalTitle">Warning</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <span id="modalBody"></span>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

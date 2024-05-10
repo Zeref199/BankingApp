@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_head(${pageTitle}, '/css/default.css', 'none')}"></head>
+
+<body class="d-flex align-items-center justify-content-center">
+<!-- Card: Success Card -->
+<div class="card col-4 alert alert-success border border-success text-success">
+  <!-- Card Title -->
+  <h3 class="card-title" style="color: black">
+    <div th:if="${title} != null">
+      [[${title}]]
+    </div>
+  </h3>
+  <!-- End Of Card Title -->
+  <hr>
+  <!-- Card Body -->
+  <div class="card-body">
+    <!-- Card Text -->
+    <div th:if="${message} != null">
+      <h3>[[${message}]]</h3>
+    </div>
+
+    <a th:href="@{/login}" class="btn btn-sm btn-success">
+      <i class="fa fa-arrow-alt-circle-left me-1"></i> Login Now
+    </a>
+  </div>
+  <!-- End Of Card Body -->
+</div>
+<!-- End Of Card: Success Card -->
+</body>
+</html>

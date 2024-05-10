@@ -1,0 +1,38 @@
+<div th:fragment="content">
+  <!-- Start Of Transact OffCanvas -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title text-white" id="offcanvasExampleLabel">Transact</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <!-- Offcanvas: Transact Body -->
+    <div class="offcanvas-body">
+      <small class="card-text text-white">
+        Choose an option below to perform a transaction
+      </small>
+      <!-- Transaction Type Drop Down List -->
+      <select name="transact-type" class="form-control my-3" id="transact-type">
+        <option value="">-- Select Transaction Type --</option>
+        <option value="payment">Payment</option>
+        <option value="transfer">Transfer</option>
+        <option value="deposit">Deposit</option>
+        <option value="withdraw">Withdraw</option>
+      </select>
+      <!-- End Of Transaction Type Drop Down List -->
+
+
+      <!-- Payments Form Card -->
+      <div th:replace="~{components/transact_forms/payment_form :: content}"></div>
+      <!-- Transfer Form Card -->
+      <div th:replace="~{components/transact_forms/transfer_form :: content}"></div>
+      <!-- Deposit Form Card -->
+      <div th:replace="~{components/transact_forms/deposit_form :: content}"></div>
+      <!-- Withdraw Form Card -->
+      <div th:replace="~{components/transact_forms/withdraw_form :: content}"></div>
+
+
+    </div>
+    <!-- End Of Offcanvas: Transact Body -->
+  </div>
+  <!-- End Of Start Of Transact OffCanvas -->
+</div>
