@@ -45,3 +45,9 @@ transactType.addEventListener("change",() =>{
 
 });
 // End Of Check For Transaction Type Evenet Listener.
+
+document.querySelector('.accordion-button').addEventListener('click', function() {
+    // Toggle aria-expanded attribute
+    let ariaExpanded = this.getAttribute('aria-expanded') === 'false';
+    this.setAttribute('aria-expanded', !ariaExpanded);
+});

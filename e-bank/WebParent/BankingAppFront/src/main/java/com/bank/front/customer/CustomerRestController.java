@@ -1,4 +1,4 @@
-package com.bank.front.Customer;
+package com.bank.front.customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;

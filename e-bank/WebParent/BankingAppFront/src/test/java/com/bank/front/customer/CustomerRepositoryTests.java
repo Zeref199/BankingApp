@@ -1,7 +1,6 @@
-package com.bank.front;
+package com.bank.front.customer;
 
 import com.bank.common.entity.Customer;
-import com.bank.front.Customer.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

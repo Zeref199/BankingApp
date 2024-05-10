@@ -2,7 +2,7 @@ package com.bank.front.security.oauth;
 
 import com.bank.common.entity.AuthenticationType;
 import com.bank.common.entity.Customer;
-import com.bank.front.Customer.CustomerService;
+import com.bank.front.customer.CustomerService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,9 +25,6 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 
         String name = oauth2User.getName();
         String email = oauth2User.getEmail();
-        String clientName = oauth2User.getClientName();
-
-        AuthenticationType authenticationType = getAuthenticationType(clientName);
 
         Customer customer = customerService.getCustomerByEmail(email);
         if (customer == null) {
@@ -38,13 +35,5 @@ public class OAuth2LoginSuccessHandler extends SavedRequestAwareAuthenticationSu
         }
 
         super.onAuthenticationSuccess(request, response, authentication);
-    }
-
-    private AuthenticationType getAuthenticationType(String clientName) {
-        if (clientName.equals("Google")) {
-            return AuthenticationType.GOOGLE;
-        } else {
-            return AuthenticationType.DATABASE;
-        }
     }
 }

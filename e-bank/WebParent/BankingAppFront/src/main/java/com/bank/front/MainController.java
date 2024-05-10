@@ -9,10 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
+
     @GetMapping("/index")
     public String viewIndexPage(){
         return "index";
     }
+
+
 
     @GetMapping("/login")
     public String viewLoginPage() {
@@ -22,10 +25,5 @@ public class MainController {
         }
 
         return "redirect:/";
-    }
-
-    @GetMapping("/HomePage")
-    public String viewHomePage(){
-        return "HomePage";
     }
 }

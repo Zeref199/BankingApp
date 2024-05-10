@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                         .usernameParameter("email")
                         .passwordParameter("password")
                         .successHandler(databaseLoginHandler)
-                        .defaultSuccessUrl("/HomePage")
+                        .defaultSuccessUrl("/app/HomePage")
                         .permitAll())
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/login") // Set the login page
@@ -59,6 +59,7 @@ public class WebSecurityConfig {
                                 .userService(oAuth2UserService) // Inject your OAuth2UserService
                         )
                         .successHandler(oauth2LoginHandler)
+                        .defaultSuccessUrl("/app/HomePage")
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")

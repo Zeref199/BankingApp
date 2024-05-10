@@ -1,6 +1,6 @@
 package com.bank.front.security;
 
-import com.bank.front.Customer.CustomerRepository;
+import com.bank.front.customer.CustomerRepository;
 import com.bank.common.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
