@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments :: page_head('Dashboard', '/css/main.css', 'none')}"></head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{components/incl/header :: headerFragment}"></div>
+
+<!-- Container -->
+<div class="container">
+
+  <!-- Card: Payment History Card -->
+  <div class="card">
+    <!-- Card Header -->
+    <div class="card-header">
+      <i class="fas fa-credit-card me-2" aria-hidden="true"></i> Payment History
+    </div>
+    <!-- End Of Card Header -->
+    <!-- Card Body -->
+    <div class="card-body">
+
+      <div th:switch="${#lists.size(payment_history)}">
+        <div th:case="0">
+          <!-- Don't Display Accounts -->
+          <p>no payments Have been made yet</p>
+        </div>
+        <div th:case="*">
+          <table class="table text-center table-striped">
+            <tr>
+              <th>Record Number</th>
+              <th>Beneficiary</th>
+              <th>Beneficiary Account Number</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Reference</th>
+              <th>Reason Code</th>
+              <th>Created at</th>
+            </tr>
+            <!-- Loop Through Payment History Records -->
+            <tr th:each="payment : ${payment_history}">
+              <td th:text="${payment.id}"></td>
+              <td th:text="${payment.beneficiary}"></td>
+              <td th:text="${payment.beneficiary_acc_no}"></td>
+              <td th:text="${payment.amount}"></td>
+              <td th:text="${payment.status}"></td>
+              <td th:text="${payment.reference_no}"></td>
+              <td th:text="${payment.reason_code}"></td>
+              <td th:text="${payment.created_at}"></td>
+            </tr>
+            <!-- End Of Loop Through Payment History Records -->
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- End Of Card Body -->
+  </div>
+  <!-- End Of Card: Payment History Card -->
+</div>
+<!-- End Of Container -->
+</body>
+</html>

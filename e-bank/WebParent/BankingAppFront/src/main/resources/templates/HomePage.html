@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{fragments :: page_head('Dashboard', '/css/main.css', 'none')}"></head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{components/incl/header :: headerFragment}"></div>
+
+<!-- Add Accounts Offcanvas: pulls from the right -->
+<div th:replace="~{components/add_account_offcanvas :: content}"></div>
+
+<!-- Transact Offcanvas: pulls from the left -->
+<div th:replace="~{components/transact_offcanvas :: content}"></div>
+
+
+
+<!-- Container -->
+<div class="container">
+
+    <!-- Display Message -->
+    <div th:if="${success != null}" class="alert alert-info text-center border border-info">
+        <b th:text="${success}"></b>
+    </div>
+
+    <!-- Display Error -->
+    <div th:if="${error != null}" class="alert alert-danger text-center border border-danger">
+        <b th:text="${error}"></b>
+    </div>
+</div>
+<!-- End Of Container-->
+
+<div th:switch="${#lists.size(userAccounts)}">
+    <div th:case="0">
+        <!-- Don't Display Accounts -->
+        <div th:replace="~{components/no_accounts_display :: content}"></div>
+    </div>
+    <div th:case="*">
+        <!-- Display Accounts -->
+        <div th:replace="~{components/account_display :: content}"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>

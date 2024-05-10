@@ -79,4 +79,6 @@ public class User extends IdBaseEntity{
         return false;
     }
 
+    //this is a comment
+
 }

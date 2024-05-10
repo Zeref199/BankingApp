@@ -5,7 +5,7 @@
 <div class="container-fluid">
     <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" th:href="@{/}">
+            <a class="navbar-brand" th:href="@{/static}">
                 HomePage
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,10 +14,10 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/users}">Users</a>
+                        <a class="nav-link" th:href="@{/templates/users}">Users</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/customers}">Customers</a>
+                        <a class="nav-link" th:href="@{/templates/customers}">Customers</a>
                     </li>
 
                 </ul>
@@ -115,38 +115,13 @@
     </div>
 
 
-    <div class="text-center">
-        <p>SpringBank Control Panel - Copyright &copy; SpringBank</p>
-    </div>
+    <div th:replace="~{fragments :: footer}"></div>
 
 </div>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#buttonCancel").on("click", function (){
-            window.location = "[[@{/users}]]";
-        });
-        $("#fileImage").change(function() {
-            let fileSize = this.files[0].size;
+    MAX_FILE_SIZE = 102400; //100KB
 
-            if (fileSize > 1048576) {
-                this.setCustomValidity("You must choose an image less than 1MB!");
-                this.reportValidity();
-            } else {
-                this.setCustomValidity("");
-                showImageThumbnail(this);
-            }
-
-        });
-    });
-    function showImageThumbnail(fileInput) {
-        let file = fileInput.files[0];
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            $("#thumbnail").attr("src", e.target.result);
-        };
-
-        reader.readAsDataURL(file);
-    }
+    moduleURL = "[[@{/users}]]";
     function checkEmailUnique(form){
         let url = "[[@{/users/check_email}]]"
         let userEmail = $("#email").val();
@@ -158,22 +133,19 @@
             if(response === "OK"){
                 form.submit();
             }else if(response === "Duplicated"){
-                showModalDialog("Warning", "There is another  user having the same email " + userEmail);
+                showWarningModal("There is another  user having the same email " + userEmail);
             }else{
-                showModalDialog("Error", "Unknown response from server");
+                showErrorModal("Unknown response from server");
             }
 
         }).fail(function (){
-            showModalDialog("Error", "Could not connect to the server");
+            showErrorModal("Could not connect to the server");
         });
         return false;
     }
 
-    function showModalDialog(title, message){
-        $("#modalTitle").text(title);
-        $("#modalBody").text(message);
-        $("#modalDialog").modal();
-    }
+
 </script>
+<script th:src="@{/js/common_form.js}"></script>
 </body>
 </html>
