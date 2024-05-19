@@ -1,8 +1,6 @@
 package com.bank.front.payment;
 
-import com.bank.common.entity.Customer;
 import com.bank.front.ControllerHelper;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,19 +20,16 @@ public class PaymentController {
 
 
     @PostMapping("/payment")
-    public String payment(@RequestParam("beneficiary") String beneficiary,
-                          @RequestParam("account_number") String accountNumber,
-                          @RequestParam("account_id") String accountID,
-                          @RequestParam("reference") String reference,
-                          @RequestParam("payment_amount") String paymentAmount,
-                          HttpServletRequest request,
+    public String payment(@RequestParam String senderAccountNumber, @RequestParam String recipientAccountNumber,
+                          @RequestParam String reference,
+                          @RequestParam double amount,
                           RedirectAttributes redirectAttributes) {
-        Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
-        String message = paymentService.payment(customer, beneficiary, accountNumber, accountID, reference, paymentAmount);
+        String message = paymentService.payment(senderAccountNumber, recipientAccountNumber,reference, amount);
         switch (message) {
             case "Payment Amount Cannot be of 0 (Zero) value, please enter a value greater than 0 (Zero)",
-                    "Could not Processed Payment due to insufficient funds!"-> {
+                    "Could not Processed Payment due to insufficient funds!",
+                    "Invalid account number."-> {
                 redirectAttributes.addFlashAttribute("error", message);
                 return "redirect:/app/HomePage";
             }

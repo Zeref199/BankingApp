@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: page_head('Accounts - Spring Bank', '/css/style.css', 'none')}"></head>
+<body>
+
+<div class="container-fluid">
+
+    <div th:replace="~{navigation :: menu}"></div>
+
+    <div>
+        <h2>Manage Accounts</h2>
+    </div>
+
+    <div>
+
+        <a th:href="@{/accounts/export/csv}" class="fa-solid fa-file-csv fa-2x mr-3" style="margin-left: 20px"></a>
+
+    </div>
+
+    <div th:replace="~{fragments :: search_form_and_message}"></div>
+
+    <div th:if="${message != null}" class="alert alert-success text-center"> [[${message}]]</div>
+
+    <div class="container">
+        <div th:if="${success != null}" class="alert alert-info text-center border border-info">
+            <b th:text="${success}"></b>
+        </div>
+        <div th:if="${error != null}" class="alert alert-danger text-center border border-danger">
+            <b th:text="${error}"></b>
+        </div>
+    </div>
+
+    <div class="full-details">
+        <table class="table table-bordered table-striped table-hover table-responsive-xl">
+            <thead class="thead-dark">
+            <tr>
+                <th th:replace="~{fragments :: column_link('id', 'ID', 'none')}"></th>
+                </th>
+                <th th:replace="~{fragments :: column_link('accountName', 'Account Name', 'none')}"></th>
+                <th>Account Number</th>
+                <th>Account Type</th>
+                <th th:replace="~{fragments :: column_link('balance', 'Balance', 'none')}"></th>
+                <th th:replace="~{fragments :: column_link('customer', 'Customer', 'none')}"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="account : ${listAccounts}">
+                <td>[[${account.id}]]</td>
+                <td>[[${account.accountName}]]</td>
+                <td>[[${account.accountNumber}]]</td>
+                <td>[[${account.accountType}]]</td>
+                <td>[[${account.balance}]]</td>
+                <td>[[${account.customer.id}]]</td>
+                <td>
+                    <a class="fas fa-hand-holding-usd fa-2x icon-green link-detail"
+                       th:href="@{'/accounts/deposit/' + ${account.id}}"
+                       title="make a deposit on this account"></a>
+                    &nbsp;&nbsp;
+                    <a class="fa fa-file-alt fa-2x icon-green link-detailTransaction" th:href="@{'/accounts/detail/' + ${account.id}}" title="View details of this account"></a>
+                    &nbsp;&nbsp;
+                    <div th:replace="~{fragments :: delete('account', ${account.id}, '/accounts/delete/' + ${account.id}, true)}"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="~{fragments :: pagination('customers')}"></div>
+
+    <div th:replace="~{modal_fragments :: confirm_modal}"></div>
+
+    <div class="modal fade" id="detailModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="transactionDetailModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments :: footer}"></div>
+</div>
+
+<script type="text/javascript">
+    moduleURL = "[[@{/accounts}]]";
+    entityName = "account";
+
+    $(document).ready(function(){
+        handleDefaultDetailLinkClick();
+        handleDefaultDetailLinkClickForTransaction();
+    });
+
+</script>
+<script type="text/javascript" th:src="@{/js/common_list.js}"></script>
+
+</body>
+</html>

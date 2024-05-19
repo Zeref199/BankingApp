@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 public @interface PagingAndSortingParam {
     public String moduleURL();
-
     public String listName();
 }

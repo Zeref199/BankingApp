@@ -4,16 +4,14 @@
 </div>
 
 <div>
-
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="">General</a>
         </li>
-<!--        <li class="nav-item">-->
-<!--            <a class="nav-link" id="address-tab" data-toggle="tab" href="#TransactionHistory" role="tab" aria-controls="">TransactionHistory</a>-->
-<!--        </li>-->
+        <li class="nav-item">
+            <a class="nav-link" id="account-tab" data-toggle="tab" href="#accounts" role="tab" aria-controls="">Accounts</a>
+        </li>
     </ul>
-
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade show active p-3" id="general" role="tabpanel" aria-labelledby="general">
             <div class="form-group row">
@@ -52,9 +50,32 @@
             </div>
         </div>
 
+        <div class="tab-pane fade p-3" id="accounts" role="tabpanel" aria-labelledby="track-tab">
+            <div th:if="${#lists.isEmpty(accounts)}" class="alert alert-warning text-center">
+                No accounts found.
+            </div>
+            <div th:if="${!#lists.isEmpty(accounts)}">
+                <table class="table text-center table-striped">
+                    <tr>
+                        <th>Account Name</th>
+                        <th>Account Number</th>
+                        <th>Account Type</th>
+                        <th>Balance</th>
+                    </tr>
+                    <tr th:each="account : ${accounts}">
+                        <td th:text="${account.accountName}"></td>
+                        <td th:text="${account.accountNumber}"></td>
+                        <td th:text="${account.accountType}"></td>
+                        <td th:text="${account.balance}"></td>
+                    </tr>
+                </table>
+            </div>
         </div>
+
     </div>
 </div>
+
+
 
 <div class="modal-footer">
     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

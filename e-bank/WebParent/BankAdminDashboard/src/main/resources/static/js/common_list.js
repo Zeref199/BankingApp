@@ -27,3 +27,7 @@ function handleDetailLinkClick(cssClass, modalId) {
 function handleDefaultDetailLinkClick() {
     handleDetailLinkClick(".link-detail", "#detailModal");
 }
+
+function handleDefaultDetailLinkClickForTransaction() {
+    handleDetailLinkClick(".link-detailTransaction", "#transactionDetailModal");
+}
