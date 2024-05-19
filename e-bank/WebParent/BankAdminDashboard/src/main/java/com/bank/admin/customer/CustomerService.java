@@ -1,6 +1,7 @@
 package com.bank.admin.customer;
 
 import com.bank.admin.paging.PagingAndSortingHelper;
+import com.bank.common.entity.Account;
 import com.bank.common.entity.Customer;
 import com.bank.common.exceptions.CustomerNotFoundException;
 import jakarta.transaction.Transactional;
@@ -8,16 +9,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @Transactional
 public class CustomerService {
+    LocalDateTime currentDateTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    String formattedDateTime = currentDateTime.format(formatter);
     public static final int CUSTOMERS_PER_PAGE = 10;
+    private final CustomerRepository customerRepo;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    private CustomerRepository customerRepo;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public CustomerService(CustomerRepository customerRepo, PasswordEncoder passwordEncoder) {
+        this.customerRepo = customerRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void listByPage(int pageNum, PagingAndSortingHelper helper){
         helper.listEntities(pageNum, CUSTOMERS_PER_PAGE, customerRepo);
@@ -74,4 +84,9 @@ public class CustomerService {
 
         customerRepo.deleteById(id);
     }
+
+    public List<Account> ListAccountByCustomer(Customer customer){
+        return customerRepo.getUserAccountsById(customer.getId());
+    }
+
 }

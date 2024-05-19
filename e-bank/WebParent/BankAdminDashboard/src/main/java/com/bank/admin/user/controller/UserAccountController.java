@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Controller
-public class AccountController {
+public class UserAccountController {
 
     @Autowired
     private UserService service;

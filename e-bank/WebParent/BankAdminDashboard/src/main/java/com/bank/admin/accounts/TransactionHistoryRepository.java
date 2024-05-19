@@ -1,4 +1,4 @@
-package com.bank.front.transaction;
+package com.bank.admin.accounts;
 
 import com.bank.common.entity.TransactionHistory;
 import jakarta.transaction.Transactional;
@@ -8,8 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 @Repository
-public interface TransactionRepository extends JpaRepository<TransactionHistory, Integer> {
+public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory, Integer> {
+    @Modifying
+    @Query(value = "DELETE FROM TransactionHistory t WHERE t.account.id = :accountId")
+    @Transactional
+    void deleteTransactionHistory(@Param("accountId") int accountId);
 
     @Modifying
     @Transactional
@@ -23,4 +28,7 @@ public interface TransactionRepository extends JpaRepository<TransactionHistory,
                         @Param("status")String status,
                         @Param("reason_code")String reason_code,
                         @Param("created_at") String created_at);
+
+    @Query(value = "SELECT * FROM transaction_history WHERE account_id = :account_id", nativeQuery = true)
+    List<TransactionHistory> getTransactionRecordsById(@Param("account_id")int account_id);
 }

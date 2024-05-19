@@ -30,7 +30,7 @@ public class TransactController {
         Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
         String message = service.deposit(customer, depositAmount, accountID);
-        if(Objects.equals(message, "Deposit Amount Cannot Be of 0 (Zero) Value")){
+        if(Objects.equals(message, "Deposit Amount Cannot Be less or equals 0, please enter a value greater than 0")){
             redirectAttributes.addFlashAttribute("error", message);
         }else{
             redirectAttributes.addFlashAttribute("success", message);
@@ -48,7 +48,7 @@ public class TransactController {
         String message = service.transfer(customer, transferFrom, transferTo, transferAmount);
         switch (message) {
             case "Cannot Transfer Into The same Account, Please select the appropriate account to perform transfer",
-                    "Cannot Transfer an amount of 0 (Zero) value, please enter a value greater than 0 (Zero)",
+                    "Transfer Amount Cannot Be less or equals 0, please enter a value greater than 0",
                     "You Have insufficient Funds to perform this Transfer!" -> {
                 redirectAttributes.addFlashAttribute("error", message);
                 return "redirect:/app/HomePage";
@@ -70,7 +70,7 @@ public class TransactController {
 
         String message = service.withdraw(customer, withdrawalAmount, accountID);
 
-        if(Objects.equals(message, "Withdrawal Amount Cannot be of 0 (Zero) value, please enter a value greater than 0 (Zero)") ||
+        if(Objects.equals(message, "Withdraw Amount Cannot Be less or equals 0, please enter a value greater than 0") ||
                 Objects.equals(message, "You Have insufficient Funds to perform this Withdrawal!")){
             redirectAttributes.addFlashAttribute("error", message);
         }else{

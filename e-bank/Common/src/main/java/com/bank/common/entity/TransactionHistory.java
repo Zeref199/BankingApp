@@ -29,10 +29,8 @@ public class TransactionHistory extends IdBaseEntity{
     @Column(name = "created_at")
     private String createdAt;
 
-    private String beneficiary;
-    private String beneficiary_acc_no;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
     private Account account;
 

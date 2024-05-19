@@ -3,6 +3,7 @@ package com.bank.front.transaction;
 import com.bank.common.entity.Customer;
 import com.bank.common.entity.TransactionHistory;
 import com.bank.front.account.AccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,7 @@ public class TransactService {
     LocalDateTime currentDateTime = LocalDateTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     String formattedDateTime = currentDateTime.format(formatter);
-
+    @Autowired
     public TransactService(AccountRepository accountRepository, TransactionRepository transactionRepository, TransactionHistoryRepository transactionHistoryRepository) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
@@ -34,8 +35,8 @@ public class TransactService {
         //GET CURRENT ACCOUNT BALANCE:
         int acc_id = Integer.parseInt(accountID);
         double depositAmountValue = Double.parseDouble(depositAmount);
-        if (depositAmountValue == 0) {
-            return "Deposit Amount Cannot Be of 0 (Zero) Value";
+        if (depositAmountValue <= 0) {
+            return "Deposit Amount Cannot Be less or equals 0, please enter a value greater than 0";
         }
         double currentBalance = accountRepository.getAccountBalance(customer.getId(), acc_id);
         double newBalance = currentBalance + depositAmountValue;
@@ -55,8 +56,8 @@ public class TransactService {
         if(transferFromId == transferToId){
             return "Cannot Transfer Into The same Account, Please select the appropriate account to perform transfer";
         }
-        if(transferAmount == 0){
-            return "Cannot Transfer an amount of 0 (Zero) value, please enter a value greater than 0 (Zero)";
+        if(transferAmount <= 0){
+            return "Transfer Amount Cannot Be less or equals 0, please enter a value greater than 0";
         }
 
         // GET CURRENT BALANCE:
@@ -90,8 +91,8 @@ public class TransactService {
         double withdrawal_amount = Double.parseDouble(withdrawalAmount);
         int account_id = Integer.parseInt(accountID);
 
-        if (withdrawal_amount == 0){
-            return "Withdrawal Amount Cannot be of 0 (Zero) value, please enter a value greater than 0 (Zero)";
+        if (withdrawal_amount <= 0){
+            return "Withdraw Amount Cannot Be less or equals 0, please enter a value greater than 0";
         }
         currentBalance = accountRepository.getAccountBalance(customer.getId(), account_id);
         if(currentBalance < withdrawal_amount){

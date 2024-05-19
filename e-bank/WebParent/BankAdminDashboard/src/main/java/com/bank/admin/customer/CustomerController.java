@@ -2,6 +2,7 @@ package com.bank.admin.customer;
 
 import com.bank.admin.paging.PagingAndSortingHelper;
 import com.bank.admin.paging.PagingAndSortingParam;
+import com.bank.common.entity.Account;
 import com.bank.common.entity.Customer;
 import com.bank.common.exceptions.CustomerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 public class CustomerController {
+    private final CustomerService service;
     @Autowired
-    private CustomerService service;
+    public CustomerController(CustomerService service) {
+        this.service = service;
+    }
 
     @GetMapping("/customers")
     public String listFirstPage() {
@@ -46,7 +52,10 @@ public class CustomerController {
     public String viewCustomer(@PathVariable("id") Integer id, Model model, RedirectAttributes ra) {
         try {
             Customer customer = service.get(id);
+            List<Account> accounts = service.ListAccountByCustomer(customer);
+
             model.addAttribute("customer", customer);
+            model.addAttribute("accounts", accounts);
 
             return "customers/customer_detail_modal";
         } catch (CustomerNotFoundException ex) {

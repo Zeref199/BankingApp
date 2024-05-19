@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -23,7 +22,7 @@ public class Account extends IdBaseEntity{
     private String accountType;
 
     @Column(name = "balance", columnDefinition = "DECIMAL(18,2) DEFAULT 0.00")
-    private BigDecimal balance;
+    private double balance;
 
     @Column(name = "created_at")
     private String createdAt;

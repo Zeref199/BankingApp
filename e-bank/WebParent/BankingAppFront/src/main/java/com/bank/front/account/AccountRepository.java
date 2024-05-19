@@ -14,6 +14,7 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
+    Account findByAccountNumber(String accountNumber);
     @Query("SELECT a FROM Account a WHERE a.customer.id = ?1")
     List<Account> getUserAccountsById(int customer_id);
 

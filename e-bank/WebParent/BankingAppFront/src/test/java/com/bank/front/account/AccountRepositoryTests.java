@@ -33,7 +33,7 @@ public class AccountRepositoryTests {
         account.setAccountName("test2");
         account.setAccountNumber("49877894");
         account.setAccountType("checking");
-        BigDecimal balance = new BigDecimal("20000.00");
+        double balance = 20000;
         account.setBalance(balance);
         account.setCustomer(customer);
 
