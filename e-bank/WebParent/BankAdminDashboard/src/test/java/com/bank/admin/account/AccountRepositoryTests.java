@@ -1,6 +1,6 @@
 package com.bank.admin.account;
 
-import com.bank.admin.accounts.TransactionHistoryRepository;
+import com.bank.admin.accounts.repository.TransactionHistoryRepository;
 import com.bank.common.entity.TransactionHistory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

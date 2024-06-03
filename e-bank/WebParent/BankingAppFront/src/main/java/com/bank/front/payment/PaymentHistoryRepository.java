@@ -16,10 +16,11 @@ public interface PaymentHistoryRepository extends JpaRepository<PaymentHistory, 
     List<PaymentHistory> getPaymentRecordsById(@Param("customer_id")int customer_id);
 
     @Modifying
-    @Query(value = " INSERT INTO payment_history(account_id, beneficiary, beneficiary_acc_no, amount, reference_no, status, reason_code, created_at) " +
-            "VALUES(:account_id,:beneficiary, :beneficiary_acc_no, :amount, :reference_no, :status, :reason_code, :created_at )", nativeQuery = true)
+    @Query(value = " INSERT INTO payment_history(customer_id, account_id, beneficiary, beneficiary_acc_no, amount, reference_no, status, reason_code, created_at) " +
+            "VALUES(:customer_id, :account_id,:beneficiary, :beneficiary_acc_no, :amount, :reference_no, :status, :reason_code, :created_at )", nativeQuery = true)
     @Transactional
-    void logTransaction(@Param("account_id") int account_id,
+    void logTransaction(@Param("customer_id")int customer_id,
+                        @Param("account_id") int account_id,
                         @Param("beneficiary") String beneficiary,
                         @Param("beneficiary_acc_no") String beneficiary_acc_no,
                         @Param("amount") double amount,

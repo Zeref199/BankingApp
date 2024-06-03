@@ -2,7 +2,7 @@ package com.bank.front.security.oauth;
 
 import com.bank.common.entity.AuthenticationType;
 import com.bank.common.entity.Customer;
-import com.bank.front.customer.CustomerService;
+import com.bank.front.customer.service.CustomerService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

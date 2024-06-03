@@ -42,7 +42,7 @@
               <td th:text="${payment.id}"></td>
               <td th:text="${payment.beneficiary}"></td>
               <td th:text="${payment.beneficiary_acc_no}"></td>
-              <td th:text="${payment.amount}"></td>
+              <td><div th:replace="~{fragments :: balance_fragment(${payment.amount})}"></div></td>
               <td th:text="${payment.status}"></td>
               <td th:text="${payment.reference_no}"></td>
               <td th:text="${payment.reason_code}"></td>
