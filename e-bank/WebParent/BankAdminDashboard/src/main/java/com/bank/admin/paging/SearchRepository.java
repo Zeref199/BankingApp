@@ -7,6 +7,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public interface SearchRepository<T, ID> extends JpaRepository<T, ID> {
-
     public Page<T> findAll(String keyword, Pageable pageable);
 }

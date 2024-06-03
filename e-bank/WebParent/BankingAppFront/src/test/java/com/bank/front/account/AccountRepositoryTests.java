@@ -2,6 +2,7 @@ package com.bank.front.account;
 
 import com.bank.common.entity.Account;
 import com.bank.common.entity.Customer;
+import com.bank.front.account.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -33,7 +34,7 @@ public class AccountRepositoryTests {
         account.setAccountName("test2");
         account.setAccountNumber("49877894");
         account.setAccountType("checking");
-        BigDecimal balance = new BigDecimal("20000.00");
+        double balance = 20000;
         account.setBalance(balance);
         account.setCustomer(customer);
 

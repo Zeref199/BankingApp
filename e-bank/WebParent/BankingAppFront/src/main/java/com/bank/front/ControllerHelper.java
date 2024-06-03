@@ -1,7 +1,7 @@
 package com.bank.front;
 
 import com.bank.common.entity.Customer;
-import com.bank.front.customer.CustomerService;
+import com.bank.front.customer.service.CustomerService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

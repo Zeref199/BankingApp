@@ -1,6 +1,6 @@
 package com.bank.admin.Settings;
 
-import com.bank.admin.setting.SettingRepository;
+import com.bank.admin.setting.repository.SettingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

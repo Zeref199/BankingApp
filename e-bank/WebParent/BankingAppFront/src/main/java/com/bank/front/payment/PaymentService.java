@@ -1,8 +1,9 @@
 package com.bank.front.payment;
 
+import com.bank.common.entity.Account;
 import com.bank.common.entity.Customer;
 import com.bank.common.entity.PaymentHistory;
-import com.bank.front.account.AccountRepository;
+import com.bank.front.account.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,6 @@ import java.util.List;
 
 @Service
 public class PaymentService {
-    private final PaymentRepository paymentRepository;
     private final AccountRepository accountRepository;
     private final PaymentHistoryRepository paymentHistoryRepository;
 
@@ -19,43 +19,43 @@ public class PaymentService {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     String formattedDateTime = currentDateTime.format(formatter);
 
-    public PaymentService(PaymentRepository paymentRepository, AccountRepository accountRepository, PaymentHistoryRepository paymentHistoryRepository) {
-        this.paymentRepository = paymentRepository;
+    public PaymentService(AccountRepository accountRepository, PaymentHistoryRepository paymentHistoryRepository) {
         this.accountRepository = accountRepository;
         this.paymentHistoryRepository = paymentHistoryRepository;
     }
 
-    public String payment(Customer customer, String beneficiary, String account_number, String account_id,
-                          String reference, String payment_amount) {
+    public String payment(Customer customer, String senderAccountNumber, String recipientAccountNumber,
+                          String reference, double amount) {
 
-        int accountID = Integer.parseInt(account_id);
-        double paymentAmount = Double.parseDouble(payment_amount);
-        if(paymentAmount == 0){
+        Account sender = accountRepository.findByAccountNumber(senderAccountNumber);
+        Account recipient = accountRepository.findByAccountNumber(recipientAccountNumber);
+
+        if (sender == null || recipient == null) {
+            return "Invalid account number.";
+        }
+
+        if(amount == 0){
             return "Payment Amount Cannot be of 0 (Zero) value, please enter a value greater than 0 (Zero)";
         }
 
-        double currentBalance = accountRepository.getAccountBalance(customer.getId(), accountID);
 
-        if(currentBalance < paymentAmount){
+        if(sender.getBalance() < amount){
             String reasonCode = "Could not Processed Payment due to insufficient funds!";
-            paymentRepository.makePayment(accountID, beneficiary, account_number, paymentAmount, reference, "failed", reasonCode, currentDateTime);
             // Log Failed Transaction:
-            paymentRepository.logTransaction(customer.getId(), accountID, beneficiary, account_number, paymentAmount, reference, "failed", "Insufficient Funds", formattedDateTime);
+            paymentHistoryRepository.logTransaction(customer.getId(), sender.getId(), recipient.getAccountName(), recipient.getAccountNumber(), amount, reference, "failed", reasonCode, formattedDateTime);
             return reasonCode;
         }
+        sender.setBalance(sender.getBalance() - amount);
+        recipient.setBalance(recipient.getBalance() + amount);
 
-        double newBalance = currentBalance - paymentAmount;
+        accountRepository.save(sender);
+        accountRepository.save(recipient);
 
         // MAKE PAYMENT:
         String reasonCode = "Payment Processed Successfully!";
-        paymentRepository.makePayment(accountID, beneficiary, account_number, paymentAmount, reference, "success", reasonCode, currentDateTime);
 
-        //UPDATE ACCOUNT PAYING FROM:
-        accountRepository.changeAccountBalanceById(newBalance, accountID);
-
-        paymentRepository.logTransaction(customer.getId(), accountID, beneficiary, account_number, paymentAmount, reference, "success", "Payment Transaction Successful", formattedDateTime);
+        paymentHistoryRepository.logTransaction(customer.getId(), sender.getId(), recipient.getAccountName(), recipient.getAccountNumber(), amount, reference, "success", reasonCode, formattedDateTime);
         return reasonCode;
-
     }
 
     public List<PaymentHistory> getPaymentHistory(Customer customer){

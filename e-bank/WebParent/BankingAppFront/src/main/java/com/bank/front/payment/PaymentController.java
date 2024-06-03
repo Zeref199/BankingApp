@@ -22,19 +22,18 @@ public class PaymentController {
 
 
     @PostMapping("/payment")
-    public String payment(@RequestParam("beneficiary") String beneficiary,
-                          @RequestParam("account_number") String accountNumber,
-                          @RequestParam("account_id") String accountID,
-                          @RequestParam("reference") String reference,
-                          @RequestParam("payment_amount") String paymentAmount,
+    public String payment(@RequestParam String senderAccountNumber, @RequestParam String recipientAccountNumber,
+                          @RequestParam String reference,
+                          @RequestParam double amount,
                           HttpServletRequest request,
                           RedirectAttributes redirectAttributes) {
         Customer customer = controllerHelper.getAuthenticatedCustomer(request);
 
-        String message = paymentService.payment(customer, beneficiary, accountNumber, accountID, reference, paymentAmount);
+        String message = paymentService.payment(customer, senderAccountNumber, recipientAccountNumber,reference, amount);
         switch (message) {
             case "Payment Amount Cannot be of 0 (Zero) value, please enter a value greater than 0 (Zero)",
-                    "Could not Processed Payment due to insufficient funds!"-> {
+                    "Could not Processed Payment due to insufficient funds!",
+                    "Invalid account number."-> {
                 redirectAttributes.addFlashAttribute("error", message);
                 return "redirect:/app/HomePage";
             }
