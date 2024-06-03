@@ -56,7 +56,7 @@
               <tr th:each="transaction : ${transact_history}">
                 <td th:text="${transaction.id}"></td>
                 <td th:text="${transaction.transactionType}"></td>
-                <td th:text="${transaction.amount}"></td>
+                <td><div th:replace="~{fragments :: balance_fragment(${transaction.amount})}"></div></td>
                 <td th:text="${transaction.source}"></td>
                 <td th:text="${transaction.status}"></td>
                 <td th:text="${transaction.reasonCode}"></td>

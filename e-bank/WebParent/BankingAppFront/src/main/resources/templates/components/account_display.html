@@ -18,7 +18,9 @@
   <!-- Container: Total Accounts Balance Display  -->
   <div class="container d-flex py-3">
     <h2 class="me-auto">Total Accounts Balance:</h2>
-    <h2 class="ms-auto" th:if="${totalBalance != null}" th:text="${totalBalance}"></h2>
+    <h2 class="ms-auto" th:if="${totalBalance != null}" >
+      <div th:replace="~{fragments :: balance_fragment(${totalBalance})}"></div>
+    </h2>
   </div>
   <!-- End Of Container: Total Accounts Balance Display  -->
 
@@ -37,7 +39,9 @@
               <li class="list-group-item d-flex">Account Name <span class="ms-auto"><b th:text="${account.accountName}"></b></span></li>
               <li class="list-group-item d-flex">Account Number <span class="ms-auto"><b th:text="${account.accountNumber}"></b></span></li>
               <li class="list-group-item d-flex">Account Type <span class="ms-auto"><b th:text="${account.accountType}"></b></span></li>
-              <li class="list-group-item d-flex">Account Balance <span class="ms-auto"><b th:text="${account.balance}"></b></span></li>
+              <li class="list-group-item d-flex">Account Balance <span class="ms-auto"><b>
+                <div th:replace="~{fragments :: balance_fragment(${account.balance})}"></div>
+              </b></span></li>
               <li class="list-group-item d-flex">Created at <span class="ms-auto"><b th:text="${account.createdAt}"></b></span></li>
             </ul>
             <!-- Account Details List -->

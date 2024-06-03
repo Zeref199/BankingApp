@@ -3,7 +3,7 @@ package com.bank.front.payment;
 import com.bank.common.entity.Account;
 import com.bank.common.entity.Customer;
 import com.bank.common.entity.PaymentHistory;
-import com.bank.front.account.AccountRepository;
+import com.bank.front.account.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public class PaymentService {
         this.paymentHistoryRepository = paymentHistoryRepository;
     }
 
-    public String payment(String senderAccountNumber, String recipientAccountNumber,
+    public String payment(Customer customer, String senderAccountNumber, String recipientAccountNumber,
                           String reference, double amount) {
 
         Account sender = accountRepository.findByAccountNumber(senderAccountNumber);
@@ -42,7 +42,7 @@ public class PaymentService {
         if(sender.getBalance() < amount){
             String reasonCode = "Could not Processed Payment due to insufficient funds!";
             // Log Failed Transaction:
-            paymentHistoryRepository.logTransaction(sender.getId(), recipient.getAccountName(), recipient.getAccountNumber(), amount, reference, "failed", reasonCode, formattedDateTime);
+            paymentHistoryRepository.logTransaction(customer.getId(), sender.getId(), recipient.getAccountName(), recipient.getAccountNumber(), amount, reference, "failed", reasonCode, formattedDateTime);
             return reasonCode;
         }
         sender.setBalance(sender.getBalance() - amount);
@@ -54,7 +54,7 @@ public class PaymentService {
         // MAKE PAYMENT:
         String reasonCode = "Payment Processed Successfully!";
 
-        paymentHistoryRepository.logTransaction(sender.getId(), recipient.getAccountName(), recipient.getAccountNumber(), amount, reference, "success", reasonCode, formattedDateTime);
+        paymentHistoryRepository.logTransaction(customer.getId(), sender.getId(), recipient.getAccountName(), recipient.getAccountNumber(), amount, reference, "success", reasonCode, formattedDateTime);
         return reasonCode;
     }
 

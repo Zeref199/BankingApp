@@ -14,7 +14,7 @@ public class SettingService {
 
 
     public List<Setting> getGeneralSettings() {
-        return repo.findByCategory(SettingCategory.GENERAL);
+        return repo.findByTwoCategories(SettingCategory.GENERAL, SettingCategory.CURRENCY);
     }
     public EmailSettingBag getEmailSettings() {
         List<Setting> settings = repo.findByCategory(SettingCategory.MAIL_SERVER);
